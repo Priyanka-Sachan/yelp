@@ -10,7 +10,7 @@ mongoose.connect('mongodb://localhost:27017/yelpCampDB', { useNewUrlParser: true
     })
     .catch((e) => {
         console.log(`ERROR:${e}`);
-    }); 
+    });
 const seedDB = async () => {
     await Campground.deleteMany({});
     try {
@@ -22,9 +22,13 @@ const seedDB = async () => {
             const randomDescriptor = i % 18;
             const randomPlace = i % 21;
             const campground = new Campground({
+                image: 'https://source.unsplash.com/collection/483251',
                 title: `${descriptors[randomDescriptor]} ${places[randomPlace]}`,
+                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, sapiente incidunt. Dolore explicabo voluptatum dignissimos error, id alias, quos modi provident ducimus impedit, facere ullam. Odio praesentium modi reprehenderit molestiae?",
+                price: i * 400,
                 location: `${cities[randomCity].city}, ${cities[randomCity].state}`
             });
+            console.log(campground);
             await campground.save();
         }
     } catch (e) {
@@ -33,5 +37,5 @@ const seedDB = async () => {
 }
 
 seedDB().then(
-    mongoose.connection.close();
+    mongoose.connection.close()
 );

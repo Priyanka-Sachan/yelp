@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 
 const methodOverride = require('method-override');
 
+const ejsMate = require('ejs-mate');
+
 const Campground = require('./models/campground');
 
 //Connecting to mongoose
@@ -18,6 +20,7 @@ mongoose.connect('mongodb://localhost:27017/yelpCampDB', { useNewUrlParser: true
         console.log(`ERROR:${e}`);
     });
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs'); //View engine : ejs for templates here..
 app.set('views', path.join(__dirname, 'views')); //To use views from anywhere in directory
 
