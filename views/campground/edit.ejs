@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit <%=campground.title%>
+    </title>
+</head>
+
+<body>
+    <form action="/campgrounds/<%=campground._id%>?_method=patch" method="post">
+        <input type="text" name="campground[title]" id="title" value="<%=campground.title%>">
+        <input type="text" name="campground[location]" id="location" value="<%=campground.location%>">
+        <button>SUBMIT</button>
+    </form>
+</body>
+
+</html>
