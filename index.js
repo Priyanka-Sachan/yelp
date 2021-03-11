@@ -10,9 +10,10 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 
 const Campground = require('./models/campground');
+const Review = require('./models/review');
 const AppError = require('./utils/appError');
 const catchAsync = require('./utils/catchAsync');
-const { campgroundSchema } = require('./JoiSchema');
+const { campgroundSchema, reviewSchema } = require('./JoiSchema');
 
 //Connecting to mongoose
 mongoose.connect('mongodb://localhost:27017/yelpCampDB', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -37,6 +38,16 @@ app.use(express.json());//to parse json
 //Middleware to validate campground data
 const validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
+    if (error) {
+        const message = error.details.map(err => err.message).join(',');
+        throw new AppError(400, message);
+    }
+    else
+        next();
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const message = error.details.map(err => err.message).join(',');
         throw new AppError(400, message);
@@ -84,7 +95,7 @@ app.get('/campgrounds/:id', catchAsync(async (req, res, next) => {
     const { id } = req.params;
     // For errors returned from async functions invoked by route handlers & middlewares,
     //  you must pass them to the next() function, where EXpress will catch n process them...
-    const campground = await Campground.findById(id);
+    const campground = await Campground.findById(id).populate('reviews');
     if (!campground)
         throw next(new AppError(404, 'Product Not Found'));
     res.render('campground/show', { campground });
@@ -97,6 +108,18 @@ app.get('/campgrounds/:id/edit', catchAsync(async (req, res, next) => {
     if (!campground)
         throw next(new AppError(404, 'Product Not Found'));
     res.render('campground/edit', { campground });
+}));
+
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res, next) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    console.log(campground);
+    if (!campground)
+        throw next(new AppError(404, 'Product Not Found'));
+    res.redirect(`/campgrounds/${campground._id}`);
 }));
 
 app.all('*', (req, res, next) => {
