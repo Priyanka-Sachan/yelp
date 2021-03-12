@@ -11,6 +11,8 @@ const ejsMate = require('ejs-mate');
 
 const expressSession = require('express-session');
 
+const flash = require('connect-flash');
+
 const AppError = require('./utils/appError');
 
 const campgrounds = require('./routes/campgrounds');
@@ -47,6 +49,13 @@ const sessionConfig = {
     }
 }
 app.use(expressSession(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);
@@ -64,7 +73,9 @@ app.use((err, req, res, next) => {
         err.status = 500;
     if (!err.message)
         err.message = 'Something went wrong!!'
-    res.status(err.status).render('error', { err });
+    req.flash('error', `ERROR: ${err.status}\n ${err.message}`);
+    res.redirect('/campgrounds/');
+    //res.status(err.status).render('error', { err });
 });
 
 //Listening to express

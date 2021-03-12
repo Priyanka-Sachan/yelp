@@ -27,6 +27,7 @@ router.post('/', validateReview, catchAsync(async (req, res, next) => {
     console.log(campground);
     if (!campground)
         throw next(new AppError(404, 'Product Not Found'));
+    req.flash('success', 'Successfully posted your review!');
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -34,6 +35,7 @@ router.delete('/:reviewId', catchAsync(async (req, res, next) => {
     const { id, reviewId } = req.params;
     Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
+    req.flash('success', 'Successfully deleted your review!');
     res.redirect(`/campgrounds/${id}`);
 }));
 

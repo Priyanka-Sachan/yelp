@@ -22,13 +22,14 @@ const validateCampground = (req, res, next) => {
 router.get('/', catchAsync(async (req, res, next) => {
     const campgrounds = await Campground.find({});
     if (!campgrounds)
-        throw next(new AppError(404, 'Products Not Found'));
+        throw next(new AppError(404, 'Page Not Found'));
     res.render('campground/index', { campgrounds });
 }));
 
 router.post('/', validateCampground, catchAsync(async (req, res, next) => {
     const campground = new Campground(req.body.campground);
     await campground.save();
+    req.flash('success', 'Successfully made a new campground!');
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
@@ -43,6 +44,7 @@ router.patch('/:id', validateCampground, catchAsync(async (req, res, next) => {
 router.delete('/:id', catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted the campground!');
     res.redirect('/campgrounds');
 }));
 
@@ -56,7 +58,7 @@ router.get('/:id', catchAsync(async (req, res, next) => {
     //  you must pass them to the next() function, where EXpress will catch n process them...
     const campground = await Campground.findById(id).populate('reviews');
     if (!campground)
-        throw next(new AppError(404, 'Product Not Found'));
+        throw next(new AppError(404, 'Page Not Found'));
     res.render('campground/show', { campground });
 }));
 
@@ -65,7 +67,8 @@ router.get('/:id/edit', catchAsync(async (req, res, next) => {
     const campground = await Campground.findById(id);
     //instead of return, throw can also work here..
     if (!campground)
-        throw next(new AppError(404, 'Product Not Found'));
+        throw next(new AppError(404, 'Page Not Found'));
+    req.flash('success', 'Successfully edited the campground!');
     res.render('campground/edit', { campground });
 }));
 
