@@ -9,6 +9,8 @@ const methodOverride = require('method-override');
 
 const ejsMate = require('ejs-mate');
 
+const expressSession = require('express-session');
+
 const AppError = require('./utils/appError');
 
 const campgrounds = require('./routes/campgrounds');
@@ -33,6 +35,18 @@ app.use(methodOverride('_method'));//making illusion of different method(get/pos
 
 app.use(express.urlencoded({ extended: true })); //middleware used to parse url ?q=..
 app.use(express.json());//to parse json
+
+const sessionConfig = {
+    secret: 'thissecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(expressSession(sessionConfig));
 
 app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);
