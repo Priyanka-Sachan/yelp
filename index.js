@@ -13,8 +13,14 @@ const expressSession = require('express-session');
 
 const flash = require('connect-flash');
 
+const passport = require('passport');
+const localStrategy = require('passport-local');
+
 const AppError = require('./utils/appError');
 
+const User = require('./models/user');
+
+const users = require('./routes/users');
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
 
@@ -51,12 +57,21 @@ const sessionConfig = {
 app.use(expressSession(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+    res.locals.user = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
 
+app.use('/', users);
 app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);
 
