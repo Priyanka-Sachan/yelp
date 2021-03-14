@@ -26,7 +26,8 @@ const seedDB = async () => {
                 title: `${descriptors[randomDescriptor]} ${places[randomPlace]}`,
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, sapiente incidunt. Dolore explicabo voluptatum dignissimos error, id alias, quos modi provident ducimus impedit, facere ullam. Odio praesentium modi reprehenderit molestiae?",
                 price: i * 400,
-                location: `${cities[randomCity].city}, ${cities[randomCity].state}`
+                location: `${cities[randomCity].city}, ${cities[randomCity].state}`,
+                author: '604d9df377cf1d9d00b95485'
             });
             console.log(campground);
             await campground.save();
@@ -36,6 +37,8 @@ const seedDB = async () => {
     }
 }
 
-seedDB().then(
-    mongoose.connection.close()
-);
+seedDB();
+
+// seedDB().then(
+//     mongoose.connection.close()
+// );
