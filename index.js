@@ -80,7 +80,7 @@ app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);
 
 app.get('/', (req, res) => {
-    res.send('<h1>WELCOME TO YELPCAMP!!!</h1>');
+    res.render('home');
 });
 
 app.all('*', (req, res, next) => {

@@ -1,12 +1,11 @@
 <%layout('layouts/boilerplate')%>
-    <div id="map" style="width: 100%; height: 500px;"></div>
+    <div id="map" style="width: 100%; height: 500px;" class="mb-3"></div>
     <!--Whitespaces in address causes error in path -->
-    <h1>ALL Campgrounds..</h1>
     <%for(campground of campgrounds){%>
-        <div class="card mb-3">
+        <div class="card mb-3 p-2 rounded">
             <div class="row">
                 <div class="col-md-4">
-                    <img class="img-fluid" src="<%=campground.images[0].url%>" alt="<%=campground.title%>">
+                    <img class="img-fluid rounded-left" src="<%=campground.images[0].url%>" alt="<%=campground.title%>">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -21,7 +20,7 @@
                         <p class="card-text">
                             <%=campground.description%>
                         </p>
-                        <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>">
+                        <a class="btn btn-outline-secondary" href="/campgrounds/<%=campground._id%>">
                             Visit <%=campground.title%>
                         </a>
                     </div>
