@@ -54,6 +54,7 @@ module.exports.validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
     if (error) {
         const message = error.details.map(err => err.message).join(',');
+        console.log('alidate rror');
         throw new AppError(400, message);
     }
     else

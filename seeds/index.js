@@ -22,7 +22,16 @@ const seedDB = async () => {
             const randomDescriptor = i % 18;
             const randomPlace = i % 21;
             const campground = new Campground({
-                image: 'https://source.unsplash.com/collection/483251',
+                images: [
+                    {
+                        url: 'https://res.cloudinary.com/dzvgb8onv/image/upload/v1615745487/yelpCamp/ohjfmszadxpby0nhsqrc.png',
+                        filename: 'yelpCamp/ohjfmszadxpby0nhsqrc'
+                    },
+                    {
+                        url: 'https://res.cloudinary.com/dzvgb8onv/image/upload/v1615745487/yelpCamp/wyakoai6oq40ogdqg7sh.png',
+                        filename: 'yelpCamp/wyakoai6oq40ogdqg7sh'
+                    }
+                ],
                 title: `${descriptors[randomDescriptor]} ${places[randomPlace]}`,
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, sapiente incidunt. Dolore explicabo voluptatum dignissimos error, id alias, quos modi provident ducimus impedit, facere ullam. Odio praesentium modi reprehenderit molestiae?",
                 price: i * 400,
