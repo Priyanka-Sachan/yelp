@@ -22,17 +22,17 @@
                         Looks good!
                     </div>
                 </div>
-                <div class="mb-3">
-                    <% campground.images.forEach((img,i)=>{ %>
-                        <div>
-                            <input type="checkbox" name="deleteImages[]" value="<%=img.filename%>">
-                            <img src="<%=img.url%>" class="img-thumbnail" alt="<%=campground.title%>">
-                        </div>
-                        <% }) %>
-                </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="images">Images</label>
                     <input type="file" class="form-control" id="images" name="images" multiple>
+                </div>
+                <div class="mb-3">
+                    <% campground.images.forEach((img,i)=>{ %>
+                        <span type="button" class="btn btn-outline-secondary" disabled>
+                            <input type="checkbox" name="deleteImages[]" value="<%=img.filename%>">
+                            <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="<%=campground.title%>">
+                        </span>
+                        <% }) %>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="price">Price</label>
