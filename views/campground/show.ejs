@@ -10,7 +10,7 @@
                         </div>
                         <% }) %>
                 </div>
-                <% if(campground.images.length >1){ %>
+                <% if(campground.images.length>1){ %>
                     <a class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -52,6 +52,7 @@
             </div>
         </div>
         <div class="col-6">
+            <div id='map' style='width: auto; height: 300px;'></div>
             <% if(user){ %>
                 <div class="mb-3">
                     <h2>Leave a review</h2>
@@ -105,3 +106,8 @@
                         <%}%>
         </div>
     </div>
+    <script>
+        const mapboxToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const campground = <%- JSON.stringify(campground) %>;
+    </script>
+    <script src="/javascripts/map.js"></script>

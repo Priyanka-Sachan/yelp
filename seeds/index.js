@@ -35,6 +35,7 @@ const seedDB = async () => {
                 title: `${descriptors[randomDescriptor]} ${places[randomPlace]}`,
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, sapiente incidunt. Dolore explicabo voluptatum dignissimos error, id alias, quos modi provident ducimus impedit, facere ullam. Odio praesentium modi reprehenderit molestiae?",
                 price: i * 400,
+                geometry: { type: 'Point', coordinates: [80.33111, 26.4725] },
                 location: `${cities[randomCity].city}, ${cities[randomCity].state}`,
                 author: '604d9df377cf1d9d00b95485'
             });
@@ -48,6 +49,6 @@ const seedDB = async () => {
 
 seedDB();
 
-// seedDB().then(
-//     mongoose.connection.close()
-// );
+seedDB().then(
+    mongoose.connection.close()
+);
