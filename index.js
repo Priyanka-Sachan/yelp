@@ -30,9 +30,13 @@ const User = require('./models/user');
 const users = require('./routes/users');
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
+const { session } = require('passport');
+
+const MongoDBStore = require('connect-mongo')(session);
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelpCampDB';
 
 //Connecting to mongoose
-mongoose.connect('mongodb://localhost:27017/yelpCampDB', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect(dbUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => {
         console.log('CONNECTED TO MONGODB');
     })
@@ -51,9 +55,19 @@ app.use(methodOverride('_method'));//making illusion of different method(get/pos
 app.use(express.urlencoded({ extended: true })); //middleware used to parse url ?q=..
 app.use(express.json());//to parse json
 
+const secret = process.env.SECRET || 'thissecret';
+const store = new MongoDBStore({
+    url: dbUrl,
+    secret: secret,
+    touchAfter: 24 * 3600
+});
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e);
+});
 const sessionConfig = {
+    store: store,
     name: 'coco',
-    secret: 'thissecret',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
