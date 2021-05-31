@@ -1,7 +1,7 @@
-if (process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
-}
-
+// if (process.env.NODE_ENV !== "production") {
+//     require('dotenv').config();
+// }
+require('dotenv').config();
 //Connecting to express
 const express = require('express');
 const app = express();
@@ -19,6 +19,9 @@ const flash = require('connect-flash');
 
 const passport = require('passport');
 const localStrategy = require('passport-local');
+
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 const AppError = require('./utils/appError');
 
@@ -49,11 +52,13 @@ app.use(express.urlencoded({ extended: true })); //middleware used to parse url 
 app.use(express.json());//to parse json
 
 const sessionConfig = {
+    name: 'coco',
     secret: 'thissecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure:true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
@@ -67,6 +72,10 @@ passport.use(new localStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use(mongoSanitize());
+app.use(helmet({ contentSecurityPolicy: false }));
+// or configure contentSecurityPolicy 
 
 app.use((req, res, next) => {
     res.locals.user = req.user;

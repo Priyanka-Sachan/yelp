@@ -24,12 +24,12 @@ const seedDB = async () => {
             const campground = new Campground({
                 images: [
                     {
-                        url: 'https://res.cloudinary.com/dzvgb8onv/image/upload/v1615745487/yelpCamp/ohjfmszadxpby0nhsqrc.png',
-                        filename: 'yelpCamp/ohjfmszadxpby0nhsqrc'
+                        url: 'https://res.cloudinary.com/dzvgb8onv/image/upload/v1615791876/yelpCamp/mx8rhakez3lqz05k1izr.png',
+                        filename: 'yelpCamp/mx8rhakez3lqz05k1izr'
                     },
                     {
-                        url: 'https://res.cloudinary.com/dzvgb8onv/image/upload/v1615745487/yelpCamp/wyakoai6oq40ogdqg7sh.png',
-                        filename: 'yelpCamp/wyakoai6oq40ogdqg7sh'
+                        url: 'https://res.cloudinary.com/dzvgb8onv/image/upload/v1615787000/yelpCamp/kiyd2bvcx6wuvg2r6jc6.jpg',
+                        filename: 'yelpCamp/kiyd2bvcx6wuvg2r6jc6'
                     }
                 ],
                 title: `${descriptors[randomDescriptor]} ${places[randomPlace]}`,
@@ -49,6 +49,6 @@ const seedDB = async () => {
 
 seedDB();
 
-seedDB().then(
-    mongoose.connection.close()
-);
+// seedDB().then(
+//     mongoose.connection.close()
+// );
