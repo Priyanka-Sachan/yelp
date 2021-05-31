@@ -32,7 +32,7 @@ const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
 const { session } = require('passport');
 
-const MongoDBStore = require('connect-mongo')(session);
+const MongoDBStore = require('connect-mongo')(expressSession);
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelpCampDB';
 
 //Connecting to mongoose
